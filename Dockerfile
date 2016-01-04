@@ -1,5 +1,12 @@
 FROM centos
-MAINTAINER Nick Heinemans (nick@hostlogic.nl)
+# adapted from Nick Heinemans (nick@hostlogic.nl)
+MAINTAINER Max Clarke (maxwelljclarke@gmail.com)
+
+WORKDIR /root
+VOLUME ["/root/Dropbox", "/root/.dropbox"]
+ADD run_dropbox.sh /root/
+RUN chmod +x /root/run_dropbox.sh
+
 RUN yum install -y python tar \
 && yum clean all
 
@@ -9,4 +16,4 @@ RUN cd /home \
 RUN curl -L -s https://www.dropbox.com/download?dl=packages/dropbox.py -o /bin/dropbox.py \
 && chmod +x /bin/dropbox.py
 
-ENTRYPOINT /home/.dropbox-dist/dropboxd
+ENTRYPOINT /root/run_dropbox.sh
